@@ -1,0 +1,16 @@
+#!/bin/sh
+
+ID=`id -u`
+if [ $ID -ne 0 ]; then
+    echo "Running apt-get requires account elevation."
+    echo "(Please re-run this by prepending sudo before the command.)"
+    echo ""
+else
+    apt-get install -y apcupsd
+    #echo "pi ALL=(ALL) NOPASSWD: /home/pi/oprint/lib/python2.7/site-packages/apcups/bin/apcups" > /etc/sudoers.d/apcups
+    echo "If that ran without problems, the plugin should now be ready. Don't forget to press the Save button"
+    echo "in the OctoPrint -> Settings -> APCUPC page when finished here. Once you've done this then reboot your"
+    echo "Raspberry Pi via OctoPrint's system menu. Then the next time you visit the settings page the interface"
+    echo "should then allow more options for communicating with your APC brand UPS."
+    echo ""
+fi

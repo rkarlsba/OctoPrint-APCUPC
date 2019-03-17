@@ -6,8 +6,7 @@
             <br/><br/>
         </div>
         <h3>{{ _('Setup required') }}</h3>
-        <p>First things first, we need to permission the <code>pi</code> user so that it can run the <code>apcupsd</code> executable
-            without providing a password.</p>
+        <p>First things first, we need to install the APC UPS daemon so that we can communicate to your UPS.</p>
         <p>To do this, you'll need to remote into the Raspberry Pi 3B and run the following command:</p>
         <p><code>sudo ~/oprint/lib/python2.7/site-packages/apcupc/bin/install</code><br/></p>
         <form class="form-horizontal">
@@ -24,45 +23,12 @@
             Blue in the slider below indicates that 5V power is ON for the indicated port, the default.<br/><br/>
         </div>
         <form class="form-horizontal">
-            <div style='display: {{ 'block' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else 'none' }}'>
-                <h3>Important Raspberry Pi 2B/3B notice!</h3>
-                <p>Given the internal design of the versions <i>before</i> the 3B+, one can only control USB power
-                    inside the Raspberry for either <i>all</i> network adapters (Port 1) or <i>all</i> four ganged USB
-                    ports (Ports 2-5) at once.<br/><br/></p>
-            </div>
             <label class="og_switch">
                 <input id="idUSB2" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb2, click: togglePower2">
                 <span class="og_slider round"></span>
                 <span class="theLabel" style="white-space:nowrap">{{ _('USB&nbsp;2') }} {{'<i class="fa fa-arrow-left"></i> Raspi 2B/3B = all four ports' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}</span>
             </label>
             <br/>
-            <label class="og_switch">
-                <input id="idUSB3" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb3, click: togglePower3" {{'disabled' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}>
-                <span class="og_slider round"></span>
-                <span class="theLabel">{{ _('USB&nbsp;3') }}</span>
-            </label>
-            <div style='display: {{ 'block' if plugin_apcupc_isRaspi3Bplus else 'none' }}'>
-            <br/>
-            <label class="og_switch">
-                <input id="idUSBAll" type="checkbox" data-bind="checked: settings.plugins.apcupc.all, click: togglePowerAll">
-                <span class="og_slider round"></span>
-                <span class="theLabel">{{ _('All&nbsp;USB') }}</span>
-            </label>
-            </div>
-            <div style='display: {{ 'none' if plugin_apcupc_isRaspi3Bplus else 'block' }}'>
-            <br/>
-            <label class="og_switch">
-                <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb4, click: togglePower4" {{'disabled' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}>
-                <span class="og_slider round"></span>
-                <span class="theLabel">{{ _('USB&nbsp;4') }}</span>
-            </label>
-            <br/>
-            <label class="og_switch">
-                <input id="idUSB5" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb5, click: togglePower5" {{'disabled' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}>
-                <span class="og_slider round"></span>
-                <span class="theLabel">{{ _('USB&nbsp;5') }}</span>
-            </label>
-            </div>
         </form>
     </div>
     <div style='display: {{ 'none' if (not plugin_apcupc_init) or (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus) else 'block' }}'>
@@ -77,6 +43,9 @@
             loss of power (brownouts) so that it continues without interruption or loss.</li>
             <li>My favorite brand of UPS products is APC and their Back- and Smart-UPS line include a serial connection and cable suitable for
             communicating with a host computer like the Raspberry Pi in this case. This plugin relies upon that connectivity.</li>
+            <li>During an outage longer than a brownout, the plugin will be notified and proceed to 1) pause the print job, 2) cancel the print
+            job and finally, 3) gracefully shutdown your Raspberry Pi. For this reason, your <b>OctoPrint</b> -> <b>Settings</b> ->
+            <b>GCode Scripts</b> -> <b>After print job is paused</b> should include gcode to move the hotend to be above your part.</li>
             <li>The installation instructions throughout assume that you have a Raspbian-based Raspberry Pi computer which will supported
             APC's daemon for monitoring that serial connection. It is only meant to be compatible with the four-core versions of the Raspberry
             Pi computer with 1GB of RAM installed.</li>

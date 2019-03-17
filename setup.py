@@ -3,7 +3,7 @@
 plugin_identifier =                         "apcupc"
 plugin_package =                            "apcupc"
 plugin_name =                               "APCUPC"
-plugin_version =                            "0.1.0"
+plugin_version =                            "0.1.1"
 plugin_description =                        """An OctoPrint plugin for Raspbian to communicate with an APC UPC via serial"""
 plugin_author =                             "OutsourcedGuru"
 plugin_author_email =                       "support@outsourced.guru"
