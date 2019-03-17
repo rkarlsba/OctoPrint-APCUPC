@@ -1,0 +1,4 @@
+include README.md
+recursive-include apcupc/templates *
+recursive-include apcupc/translations *
+recursive-include apcupc/static *

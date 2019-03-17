@@ -1,0 +1,95 @@
+<div>
+    <h3>{{ _('APCUPC settings') }}</h3>
+    <div style='display: {{ 'none' if plugin_apcupc_init else 'block' }}'>
+        <div style="clear:both">
+            See the <a href="https://github.com/OutsourcedGuru/OctoPrint-APCUPC" target="_blank">README.md</a> for how to set things up.
+            <br/><br/>
+        </div>
+        <h3>{{ _('Setup required') }}</h3>
+        <p>First things first, we need to permission the <code>pi</code> user so that it can run the <code>apcupsd</code> executable
+            without providing a password.</p>
+        <p>To do this, you'll need to remote into the Raspberry Pi 3B and run the following command:</p>
+        <p><code>sudo ~/oprint/lib/python2.7/site-packages/apcupc/bin/install</code><br/></p>
+        <form class="form-horizontal">
+            <label class="og_switch">
+                <input type="checkbox" data-bind="click: saveInit">
+                <span class="og_slider round"></span>
+                <span class="theLabel">{{ _('Okay,&nbsp;I&nbsp;have&nbsp;done&nbsp;this') }}</span>
+            </label>
+        </form>
+    </div>
+    <div style='display: {{ 'block' if plugin_apcupc_init and (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus) else 'none' }}'>
+        <div style="clear:both">
+            See the <a href="https://github.com/OutsourcedGuru/OctoPrint-APCUPC" target="_blank">README.md</a> for how to set things up.
+            Blue in the slider below indicates that 5V power is ON for the indicated port, the default.<br/><br/>
+        </div>
+        <form class="form-horizontal">
+            <div style='display: {{ 'block' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else 'none' }}'>
+                <h3>Important Raspberry Pi 2B/3B notice!</h3>
+                <p>Given the internal design of the versions <i>before</i> the 3B+, one can only control USB power
+                    inside the Raspberry for either <i>all</i> network adapters (Port 1) or <i>all</i> four ganged USB
+                    ports (Ports 2-5) at once.<br/><br/></p>
+            </div>
+            <label class="og_switch">
+                <input id="idUSB2" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb2, click: togglePower2">
+                <span class="og_slider round"></span>
+                <span class="theLabel" style="white-space:nowrap">{{ _('USB&nbsp;2') }} {{'<i class="fa fa-arrow-left"></i> Raspi 2B/3B = all four ports' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}</span>
+            </label>
+            <br/>
+            <label class="og_switch">
+                <input id="idUSB3" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb3, click: togglePower3" {{'disabled' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}>
+                <span class="og_slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;3') }}</span>
+            </label>
+            <div style='display: {{ 'block' if plugin_apcupc_isRaspi3Bplus else 'none' }}'>
+            <br/>
+            <label class="og_switch">
+                <input id="idUSBAll" type="checkbox" data-bind="checked: settings.plugins.apcupc.all, click: togglePowerAll">
+                <span class="og_slider round"></span>
+                <span class="theLabel">{{ _('All&nbsp;USB') }}</span>
+            </label>
+            </div>
+            <div style='display: {{ 'none' if plugin_apcupc_isRaspi3Bplus else 'block' }}'>
+            <br/>
+            <label class="og_switch">
+                <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb4, click: togglePower4" {{'disabled' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}>
+                <span class="og_slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;4') }}</span>
+            </label>
+            <br/>
+            <label class="og_switch">
+                <input id="idUSB5" type="checkbox" data-bind="checked: settings.plugins.apcupc.usb5, click: togglePower5" {{'disabled' if plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B else ''}}>
+                <span class="og_slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;5') }}</span>
+            </label>
+            </div>
+        </form>
+    </div>
+    <div style='display: {{ 'none' if (not plugin_apcupc_init) or (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus) else 'block' }}'>
+        <div style="clear:both">
+            <code>It looks like your OctoPrint is installed on something other than a Raspberry Pi 2B,<br/>
+            3B or 3B+ and therefore isn't compatible with this plugin.</code><br/><br/>
+        </div>
+    </div>
+    <table><tr><td valign="top"><h3>{{ _('Why this might be useful') }}</h3>
+        <ol>
+            <li>An uninterruptible power supply (UPS) is a great addition to your 3D printer's setup. It can save your print job during momentary
+            loss of power (brownouts) so that it continues without interruption or loss.</li>
+            <li>My favorite brand of UPS products is APC and their Back- and Smart-UPS line include a serial connection and cable suitable for
+            communicating with a host computer like the Raspberry Pi in this case. This plugin relies upon that connectivity.</li>
+            <li>The installation instructions throughout assume that you have a Raspbian-based Raspberry Pi computer which will supported
+            APC's daemon for monitoring that serial connection. It is only meant to be compatible with the four-core versions of the Raspberry
+            Pi computer with 1GB of RAM installed.</li>
+        </ol>
+        <p>This plugin uses the <b>apcupsd</b> daemon to communicate with an APC brand Back-UPS or Smart-UPS.</p>
+        </td><td width="50%" valign="top" align="right">
+            <a href="https://github.com/OutsourcedGuru" target="_blank"><img src="plugin/apcupc/static/img/profile.png"></a>
+        </td>
+    <tr><tr><td colspan="2"><hr/></td>
+    </tr><tr>
+        <td>Tip me (BTC)</td><td width="50%" align="right">Tip me (ETH)</td>
+    </tr><tr>
+        <td valign="top"><img src="plugin/apcupc/static/img/btc-receive.png" width="250" height="250"></td>
+        <td width="50%" valign="top" align="right"><img src="plugin/apcupc/static/img/eth-receive.png" width="280" height="280" style='margin-top: -15px; margin-right: -15px'></td>
+    </tr></table>
+</div>
