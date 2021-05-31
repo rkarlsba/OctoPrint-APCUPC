@@ -2,12 +2,12 @@
     <h3>{{ _('APCUPC settings') }}</h3>
     <div style='display: {{ 'none' if plugin_apcupc_init else 'block' }}'>
         <div style="clear:both">
-            See the <a href="https://github.com/OutsourcedGuru/OctoPrint-APCUPC" target="_blank">README.md</a> for how to set things up.
+            See the <a href="https://github.com/rkarlsba/OctoPrint-APCUPC" target="_blank">README.md</a> for how to set things up.
             <br/><br/>
         </div>
         <h3>{{ _('Setup required') }}</h3>
         <p>First things first, we need to install the APC UPS daemon so that we can communicate to your UPS.</p>
-        <p>To do this, you'll need to remote into the Raspberry Pi 3B and run the following command:</p>
+        <p>To do this, you'll need to login to the Raspberry Pi and run the following command:</p>
         <p><code>sudo ~/oprint/lib/python2.7/site-packages/apcupc/bin/install</code><br/></p>
         <form class="form-horizontal">
             <label class="og_switch">
@@ -17,7 +17,7 @@
             </label>
         </form>
     </div>
-    <div style='display: {{ 'block' if plugin_apcupc_init and (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus) else 'none' }}'>
+    <div style='display: {{ 'block' if plugin_apcupc_init and (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus or plugin_apcupc_isRaspi4B or plugin_apcupc_isRaspi400) else 'none' }}'>
         <div style="clear:both">
             See the <a href="https://github.com/OutsourcedGuru/OctoPrint-APCUPC" target="_blank">README.md</a> for how to set things up.
             Blue in the slider below indicates that 5V power is ON for the indicated port, the default.<br/><br/>
@@ -31,7 +31,7 @@
             <br/>
         </form>
     </div>
-    <div style='display: {{ 'none' if (not plugin_apcupc_init) or (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus) else 'block' }}'>
+    <div style='display: {{ 'none' if (not plugin_apcupc_init) or (plugin_apcupc_isRaspi2B or plugin_apcupc_isRaspi3B or plugin_apcupc_isRaspi3Bplus or plugin_apcupc_isRaspi4B or plugin_apcupc_isRaspi400) else 'block' }}'>
         <div style="clear:both">
             <code>It looks like your OctoPrint is installed on something other than a Raspberry Pi 2B,<br/>
             3B or 3B+ and therefore isn't compatible with this plugin.</code><br/><br/>
