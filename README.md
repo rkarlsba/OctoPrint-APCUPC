@@ -4,17 +4,20 @@ An OctoPrint plugin for Raspbian to communicate with an APC UPC via serial.
 
 ![apc](https://user-images.githubusercontent.com/15971213/54496388-f9427380-48ab-11e9-8049-0ce750b226d1.jpg)
 
+## Fork
+This is an initial fork of [OctoPrint-APCUPC](https://github.com/OutsourcedGuru/OctoPrint-APCUPC) by [Roy Sigurd Karlsbakk](mailto:roy@karlsbakk.net) awating further development of the original. This is not finished, but it should work. In the fork I'll attempt to improve on this, adding support for other boards as well as those originally listed (up to pi3b) and perhaps just add a warning if the board used is not under the supported boards list. This fork will attempt to remedy the need for a specific board and just focus on something sufficient power/memory or just leave it to the user to decide what to do in the case of lack of resources.
+
 ## Overview
-> **Raspberry Pi 3B**: A single-board computer made by the Raspberry Pi Foundation
+> **Raspberry Pi**: A group of single-board computers made by the Raspberry Pi Foundation
 > 
-> **UPS**: (abbreviation of Uninterruptible Power Supply) is a battery-based device for providing clean power to personal computers and their peripheral devices.
+> **UPS**: (abbreviation of Uninterruptible Power Supply) is a battery-based device for providing power to personal computers and their peripheral devices in case of power failure.
 >
 > **apcupsd**: The underlying daemon which communicates to the APC-branded UPS.
 
 * An uninterruptible power supply (UPS) is a great addition to your 3D printer's setup. It can save your print job during momentary loss of power (brownouts) so that it continues without interruption or loss.
 * My favorite brand of UPS products is APC and their Back- and Smart-UPS line include a serial connection and cable suitable for communicating with a host computer like the Raspberry Pi in this case. This plugin relies upon that connectivity.
 * During an outage longer than a brownout, the plugin will be notified and proceed to 1) pause the print job, 2) cancel the print job and finally, 3) gracefully shutdown your Raspberry Pi. For this reason, your **OctoPrint** -> **Settings** -> **GCode Scripts** -> **After print job is paused** should include gcode to move the hotend to be above your part.
-* The installation instructions throughout assume that you have a Raspbian-based Raspberry Pi computer which will support APC's daemon for monitoring that serial connection. It is only meant to be compatible with the four-core versions of the Raspberry Pi computer with 1GB of RAM installed.
+* The installation instructions throughout assume that you have a Raspbian-based Raspberry Pi computer which will support APC's daemon for monitoring that serial connection. It is only meant to be compatible with the four-core versions of the Raspberry Pi computer with 1GB of RAM installed. 
 
 ### The rationale for this plugin
 
@@ -42,6 +45,8 @@ It is NOT intended to support the following:
 * PCs, Macs, generic Linux workstations *or anything else*
 
 Also, this plugin is NOT intended to support those of you who wish to plug more than one printer into your Raspberry Pi 3B.
+
+*This list will probably be radically changed in this fork*
 
 ### APC brand
 
